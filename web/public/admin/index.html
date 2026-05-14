@@ -6,12 +6,16 @@
     <!-- Pas d'indexation : c'est l'admin -->
     <meta name="robots" content="noindex, nofollow" />
     <title>Admin · Cascades Expériences</title>
+    <!--
+      Decap cherche /config.yml par défaut. On lui dit explicitement de prendre
+      le notre, gardé dans /admin/ avec le reste de l'admin.
+    -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
   </head>
   <body>
     <!--
       Decap CMS chargé via CDN. Une seule page HTML statique : tout le UI
       d'admin (login, éditeurs, prévisualisations) vit dans ce script.
-      La config (collections, schémas, backend) est dans /admin/config.yml.
     -->
     <script src="https://unpkg.com/decap-cms@^3.8.4/dist/decap-cms.js"></script>
   </body>
