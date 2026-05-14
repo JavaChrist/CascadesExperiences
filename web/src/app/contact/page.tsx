@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mail, Phone, Clock, MapPin } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { ContactForm } from "@/components/contact/contact-form";
+import CircuitMap from "@/components/contact/circuit-map-client";
 import { siteConfig } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -92,16 +93,44 @@ export default function ContactPage() {
 
             <InfoCard
               icon={MapPin}
-              title="Sur les circuits"
+              title="Adresse principale"
               primary={
-                <p className="text-sm text-ink-soft">
-                  Circuit du Vigeant (86), Circuit Carole (93), Forêt de
-                  Rambouillet (78). Le lieu exact est confirmé à la
-                  réservation.
-                </p>
+                <address className="not-italic text-sm text-ink-soft">
+                  <span className="block font-bold text-ink">
+                    {siteConfig.contact.address.label}
+                  </span>
+                  <span className="block">{siteConfig.contact.address.street}</span>
+                  <span className="block">
+                    {siteConfig.contact.address.postal}{" "}
+                    {siteConfig.contact.address.city} (
+                    {siteConfig.contact.address.region})
+                  </span>
+                </address>
               }
+              secondary="Les stages se déroulent ici. Le lieu exact d'une session est précisé à la réservation."
             />
           </aside>
+        </Container>
+      </section>
+
+      {/* Carte de l'adresse principale */}
+      <section className="bg-paper-muted py-12 sm:py-16">
+        <Container>
+          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-brand">
+                Nous trouver
+              </p>
+              <h2 className="mt-1 text-2xl font-black tracking-tight sm:text-3xl">
+                Adresse principale
+              </h2>
+            </div>
+            <p className="max-w-md text-sm text-ink-muted">
+              Les stages se déroulent sur différents circuits — le lieu exact
+              est confirmé à la réservation.
+            </p>
+          </div>
+          <CircuitMap />
         </Container>
       </section>
     </>

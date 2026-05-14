@@ -15,6 +15,15 @@ export const siteConfig = {
     phone: "06 99 17 75 00",
     phoneHref: "tel:+33699177500",
     email: "cascadesexperiences@gmail.com",
+    address: {
+      label: "Pôle Mécanique de Clastres",
+      street: "D32",
+      postal: "02480",
+      city: "Artemps",
+      region: "Aisne",
+      // Coords géocodées via Nominatim sur "Pôle Mécanique de la Clef des Champs"
+      coords: [49.7548819, 3.2096835] as [number, number],
+    },
     hours: [
       { days: "Lun – Ven", time: "8h45 – 19h00" },
       { days: "Samedi", time: "8h45 – 18h00" },
