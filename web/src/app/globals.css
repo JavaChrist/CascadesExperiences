@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/*
+ * Cascades Expériences — design tokens
+ * Palette : rouge signature inspiré piste / moto, contrastes francs noir/blanc.
+ */
+:root {
+  --color-brand: #e10600;
+  --color-brand-dark: #b30500;
+  --color-brand-soft: #fff1f0;
+
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1f1f1f;
+  --color-ink-muted: #595959;
+
+  --color-paper: #ffffff;
+  --color-paper-muted: #f5f5f5;
+  --color-paper-line: #e5e5e5;
+}
+
+@theme inline {
+  /* Couleurs exposées en classes Tailwind (bg-brand, text-ink, …) */
+  --color-brand: var(--color-brand);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-brand-soft: var(--color-brand-soft);
+
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-muted: var(--color-ink-muted);
+
+  --color-paper: var(--color-paper);
+  --color-paper-muted: var(--color-paper-muted);
+  --color-paper-line: var(--color-paper-line);
+
+  --font-sans: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI",
+    Roboto, sans-serif;
+}
+
+html,
+body {
+  font-family: var(--font-sans);
+}
+
+/* Sélection texte aux couleurs de la marque */
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-paper);
+}
+
+/* Focus visible accessible et raccord avec la palette */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
