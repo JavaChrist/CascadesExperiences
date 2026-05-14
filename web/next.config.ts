@@ -1,4 +1,12 @@
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
+
+// Racine du workspace Turbopack — explicitement `web/` (le dossier de ce fichier).
+// Sans ça, Next remonte vers le parent dès qu'un autre lockfile traîne au-dessus
+// et résout mal les modules. Doc :
+// node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/turbopack.md
+const WEB_ROOT = dirname(fileURLToPath(import.meta.url));
 
 const securityHeaders = [
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -11,6 +19,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  turbopack: {
+    root: WEB_ROOT,
+  },
   // Images : on autorisera le CDN Wix le temps de récupérer les médias,
   // puis on basculera tout en local dans /public/media.
   images: {
