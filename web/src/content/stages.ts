@@ -30,6 +30,8 @@ export type Stage = {
 };
 
 export type StageSession = {
+  /** Identifiant unique (UUID Supabase) */
+  id: string;
   /** Référence vers Stage.slug */
   stage: StageType;
   /** Date ISO (YYYY-MM-DD) */
