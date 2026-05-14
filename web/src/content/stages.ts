@@ -175,3 +175,18 @@ export function formatSessionDate(
     year: "numeric",
   }).format(date);
 }
+
+/** "juin 2026" pour le regroupement par mois. */
+export function formatMonthLabel(iso: string): string {
+  const [y, m] = iso.split("-").map(Number);
+  const date = new Date(y, m - 1, 1);
+  return new Intl.DateTimeFormat("fr-FR", {
+    month: "long",
+    year: "numeric",
+  }).format(date);
+}
+
+/** Clé de mois stable pour le tri/group : "2026-06". */
+export function monthKey(iso: string): string {
+  return iso.slice(0, 7);
+}

@@ -31,7 +31,7 @@ export const siteConfig = {
   nav: [
     { label: "Accueil", href: "/" },
     { label: "Les stages", href: "/stages" },
-    { label: "Rando électrique", href: "/rando-electrique" },
+    { label: "Rando électrique", href: "/stages/rando-electrique" },
     { label: "Club", href: "/club" },
     { label: "Boutique", href: "/boutique" },
     { label: "Contact", href: "/contact" },
