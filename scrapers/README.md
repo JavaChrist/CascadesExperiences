@@ -7,24 +7,21 @@ Scripts utilitaires one-shot pour préparer le contenu du nouveau site.
 ```
   cascadesexperiences.fr (Wix)
             │
-            ▼
-  1. wix-media.mjs           → scrapers/output/images/  (originals, pleine résolution)
-            │                  scrapers/output/videos/  (vide en pratique, Wix hydrate en JS)
-            │                  scrapers/output/manifest.json
-            ▼
-  2. optimize-images.mjs     → scrapers/output/optim/   (WebP ≤2400 px q82 + JPG fallback)
-            │                  scrapers/output/optim/index.json
-            ▼
-  3. build-contact-sheet.mjs → scrapers/output/optim/contact-sheet.html
-            │                  (grille de tri visuel — pour curation manuelle)
-            ▼
-  4. publish-media.mjs       → web/public/media/photos/
-                               web/public/media/media-index.json
-                               web/public/media/videos/.gitkeep
-                               web/public/media/README.md
+            ├── IMAGES (HTML statique) ───────────────────────────┐
+            │                                                     ▼
+            │  1. wix-media.mjs           → scrapers/output/images/
+            │  2. optimize-images.mjs     → scrapers/output/optim/
+            │  3. build-contact-sheet.mjs → contact-sheet.html
+            │  4. publish-media.mjs       → web/public/media/photos/
+            │
+            └── VIDÉOS (encodées en JSON inline) ─────────────────┐
+                                                                  ▼
+               A. wix-videos.mjs        → web/public/media/videos/ (1080p brut)
+               B. optimize-videos.mjs   → web/public/media/videos/ (720p H.264)
+                                          scrapers/output/videos-original/ (backup 1080p)
 ```
 
-Le dossier `scrapers/output/` est **gitignoré** : il contient des originaux lourds qui ne doivent jamais entrer dans le repo. Seul ce qui sort en étape 4 (dans `web/public/media/`) est versionné.
+Le dossier `scrapers/output/` est **gitignoré** : il contient des originaux lourds qui ne doivent jamais entrer dans le repo. Seul ce qui sort vers `web/public/media/` est versionné.
 
 ## 1. `wix-media.mjs` — scrape les médias du site Wix
 
@@ -68,6 +65,24 @@ Copie les `.webp` retenus vers `web/public/media/photos/` et génère `media-ind
 node scrapers/publish-media.mjs
 ```
 
+## A. `wix-videos.mjs` — scrape les vidéos Wix
+
+Les vidéos Wix sont encodées dans le HTML sous forme JSON inline (entourées d'entités `&quot;`), pas en URL directe — d'où un script dédié. Trouve les hash de vidéo et leur résolution max, puis télécharge en MP4 1080p directement dans `web/public/media/videos/`.
+
+```bash
+node scrapers/wix-videos.mjs
+```
+
+## B. `optimize-videos.mjs` — recompresse via ffmpeg-static
+
+Re-encode les vidéos de `web/public/media/videos/` en 720p H.264 CRF 28 (taille ÷ 3 environ, qualité acceptable pour fond/hero). Les originaux 1080p sont déplacés vers `scrapers/output/videos-original/` (gitignoré, conservés pour ré-encodage avec d'autres paramètres si besoin).
+
+```bash
+node scrapers/optimize-videos.mjs
+```
+
+Si tu veux une qualité différente : éditer `FFMPEG_ARGS` dans le script (CRF 24 = meilleure qualité, CRF 32 = plus léger ; `scale=-2:480` pour passer en 480p).
+
 ## Modifier les pages à crawler
 
-Éditer la constante `PAGES` en tête de `wix-media.mjs`. La liste vient du `pages-sitemap.xml` Wix.
+Éditer la constante `PAGES` en tête de `wix-media.mjs` ou `wix-videos.mjs`. La liste vient du `pages-sitemap.xml` Wix.

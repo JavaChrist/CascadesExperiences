@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-05-14T15:00:34.774Z",
-  "totalFiles": 84,
-  "totalBytes": 19754924,
+  "generatedAt": "2026-05-14T17:17:46.578Z",
+  "totalFiles": 87,
+  "totalBytes": 104296454,
   "note": "Index généré par scrapers/publish-media.mjs depuis le contenu original cascadesexperiences.fr. Les sources listent les pages Wix où chaque média était utilisé — utile pour savoir où le replacer.",
   "items": [
     {
@@ -843,6 +843,27 @@
         "https://www.cascadesexperiences.fr/",
         "https://www.cascadesexperiences.fr/copie-de-stage-wheeling"
       ]
+    },
+    {
+      "type": "video",
+      "file": "videos/fdbdb0_3958e8315423481daebe0330b5852e1f-720p.mp4",
+      "hash": "fdbdb0_3958e8315423481daebe0330b5852e1f",
+      "resolution": "720p",
+      "bytes": 27417169
+    },
+    {
+      "type": "video",
+      "file": "videos/fdbdb0_87021b46c5b449f0b3e34991d088dfa3-720p.mp4",
+      "hash": "fdbdb0_87021b46c5b449f0b3e34991d088dfa3",
+      "resolution": "720p",
+      "bytes": 34874943
+    },
+    {
+      "type": "video",
+      "file": "videos/fdbdb0_f0d96002dc394dbb960632f4e41eb851-720p.mp4",
+      "hash": "fdbdb0_f0d96002dc394dbb960632f4e41eb851",
+      "resolution": "720p",
+      "bytes": 22249418
     }
   ]
 }
