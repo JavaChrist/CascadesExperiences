@@ -24,7 +24,12 @@ const GALLERY_PHOTOS: { src: string; alt: string }[] = [
   { src: "/media/photos/fdbdb0_60b4e4e60b8b4c02bb28c9a244c40c55~mv2.webp", alt: "Ambiance stage" },
 ];
 
-const HERO_PHOTO = "/media/photos/fdbdb0_b1ce414227db4d129f3de209cb5a99dc~mv2.webp";
+// Vidéo de fond du hero — celle que Wix utilisait sur la home actuellement.
+// La photo sert de `poster` pour éviter un flash blanc avant le buffering.
+const HERO_VIDEO =
+  "/media/videos/fdbdb0_f0d96002dc394dbb960632f4e41eb851-720p.mp4";
+const HERO_POSTER =
+  "/media/photos/fdbdb0_b1ce414227db4d129f3de209cb5a99dc~mv2.webp";
 
 export default function HomePage() {
   const nextSessions = upcomingSessions().slice(0, HOME_SESSIONS_LIMIT);
@@ -33,13 +38,23 @@ export default function HomePage() {
     <>
       {/* ─── HERO ─────────────────────────────────────────────────────── */}
       <section className="relative isolate overflow-hidden bg-ink text-paper">
-        <Image
-          src={HERO_PHOTO}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="absolute inset-0 -z-10 object-cover opacity-50"
+        {/*
+          Vidéo de fond muette qui démarre en autoplay et boucle.
+          - poster : image affichée pendant le buffering (zéro flash blanc)
+          - preload="auto" : on accepte le coût (~22 MB) car la vidéo EST le hero
+          - playsInline : iOS Safari ne passe pas en fullscreen automatique
+          - muted indispensable pour que l'autoplay marche sur Chrome/Safari
+        */}
+        <video
+          src={HERO_VIDEO}
+          poster={HERO_POSTER}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          aria-hidden
+          className="absolute inset-0 -z-10 size-full object-cover opacity-50"
         />
         <div
           aria-hidden
