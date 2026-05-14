@@ -1,9 +1,9 @@
 /**
- * Modèle des stages et données de démonstration.
+ * Catalogue des stages (statique) + types + helpers de format.
  *
- * Les `sessions` sont des dates planifiées éditables — quand on branchera
- * Decap CMS (cf. todo), elles seront chargées depuis des fichiers Markdown
- * et ce module exposera la même forme.
+ * Ce module est **universal** — pas d'accès filesystem, importable par client
+ * components comme par server components. Pour les sessions (dates planifiées),
+ * voir `sessions-data.ts` qui lit `web/content/sessions/*.json` côté serveur.
  */
 import type { LucideIcon } from "lucide-react";
 import { Zap, Target, User, Mountain } from "lucide-react";
@@ -123,26 +123,6 @@ export const STAGES: Stage[] = [
 ];
 
 // ────────────────────────────────────────────────────────────────────────────
-// Dates de démonstration — à remplacer par les vraies via Decap CMS
-// ────────────────────────────────────────────────────────────────────────────
-
-/**
- * Sessions de démo. Format minimal pour résoudre dès maintenant le pain point
- * UX principal du site Wix actuel : "voir les dates en un coup d'œil".
- *
- * À branchement Decap : remplacer par un chargement depuis `web/content/sessions/*.md`.
- */
-export const SESSIONS: StageSession[] = [
-  { stage: "wheeling",         date: "2026-06-08", location: "Circuit du Vigeant (86)",   spotsLeft: 3,  capacity: 8 },
-  { stage: "conduite",         date: "2026-06-15", location: "Circuit de Carole (93)",    spotsLeft: 5,  capacity: 10 },
-  { stage: "rando-electrique", date: "2026-06-22", location: "Forêt de Rambouillet (78)", spotsLeft: 4,  capacity: 6 },
-  { stage: "wheeling",         date: "2026-07-06", location: "Circuit du Vigeant (86)",   spotsLeft: 8,  capacity: 8 },
-  { stage: "conduite",         date: "2026-07-13", location: "Circuit du Vigeant (86)",   spotsLeft: 6,  capacity: 10 },
-  { stage: "wheeling",         date: "2026-09-14", location: "Circuit de Carole (93)",    spotsLeft: 7,  capacity: 8 },
-  { stage: "rando-electrique", date: "2026-09-28", location: "Forêt de Rambouillet (78)", spotsLeft: 6,  capacity: 6 },
-];
-
-// ────────────────────────────────────────────────────────────────────────────
 // Helpers
 // ────────────────────────────────────────────────────────────────────────────
 
@@ -150,14 +130,6 @@ export function getStage(slug: StageType): Stage {
   const stage = STAGES.find((s) => s.slug === slug);
   if (!stage) throw new Error(`Stage inconnu : ${slug}`);
   return stage;
-}
-
-/** Sessions à venir, triées par date croissante (`now` injectable pour les tests). */
-export function upcomingSessions(now = new Date()): StageSession[] {
-  const today = now.toISOString().slice(0, 10);
-  return [...SESSIONS]
-    .filter((s) => s.date >= today)
-    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 /** Formate une date ISO (YYYY-MM-DD) en français : "8 juin 2026" / "lun. 8 juin". */

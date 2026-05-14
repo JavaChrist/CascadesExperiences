@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Container } from "@/components/ui/container";
 import { SessionsExplorer } from "@/components/stages/sessions-explorer";
-import { upcomingSessions } from "@/content/stages";
+import { upcomingSessions } from "@/content/sessions-data";
 
 export const metadata: Metadata = {
   title: "Les stages",
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
     "Toutes les dates de stages Cascades Expériences — wheeling, pilotage sur piste, coaching privé et randonnée électrique. Filtre par type, vois les places restantes en direct.",
 };
 
-export default function StagesPage() {
-  const sessions = upcomingSessions();
+export default async function StagesPage() {
+  const sessions = await upcomingSessions();
 
   return (
     <>

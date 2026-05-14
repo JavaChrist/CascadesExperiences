@@ -1,0 +1,98 @@
+# Config Decap CMS — Cascades Expériences
+# Doc : https://decapcms.org/docs/configuration-options/
+#
+# - En dev : `local_backend: true` active le proxy local (npx decap-server)
+#   et permet d'éditer sans s'authentifier. Les changements sont écrits dans
+#   le repo local, à toi de les commiter ensuite (git status / commit / push).
+# - En prod : il faut une OAuth App GitHub + une route serveur qui gère le
+#   callback (cf. Phase 2). Le backend ci-dessous est déjà câblé pour ça.
+
+backend:
+  name: github
+  repo: JavaChrist/CascadesExperiences
+  branch: main
+  base_url: https://cascadesexperiences.fr # à ajuster en prod si autre domaine
+  auth_endpoint: api/auth/decap # à implémenter Phase 2 (Vercel route)
+  commit_messages:
+    create: "content(sessions): add {{slug}}"
+    update: "content(sessions): update {{slug}}"
+    delete: "content(sessions): delete {{slug}}"
+
+# Active le proxy local en dev. À régler à `false` (ou supprimer) en prod —
+# Decap fait ça automatiquement quand le proxy n'est pas joignable.
+local_backend: true
+
+# Les uploads d'images vont ici (chemin relatif à la racine du repo).
+# Sur le site, ils seront référencés via /media/uploads/...
+media_folder: web/public/media/uploads
+public_folder: /media/uploads
+
+# Pas indispensable mais évite que Decap charge des CSS distants.
+site_url: https://cascadesexperiences.fr
+display_url: https://cascadesexperiences.fr
+logo_url: /media/photos/fdbdb0_b1ce414227db4d129f3de209cb5a99dc~mv2.webp
+
+# UI en français
+locale: fr
+
+# ────────────────────────────────────────────────────────────────────────────
+# Collections
+# ────────────────────────────────────────────────────────────────────────────
+collections:
+  - name: sessions
+    label: "Sessions de stage"
+    label_singular: "Session"
+    description: "Dates planifiées des stages. Chaque session = un fichier JSON."
+    folder: web/content/sessions
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: "{{fields.date}}-{{fields.stage}}"
+    summary: "{{date}} · {{stage}} · {{location}}"
+    sortable_fields: ["date", "stage"]
+    view_filters:
+      - label: "Wheeling"
+        field: stage
+        pattern: "wheeling"
+      - label: "Pilotage"
+        field: stage
+        pattern: "conduite"
+      - label: "Privé"
+        field: stage
+        pattern: "prive"
+      - label: "Rando élec"
+        field: stage
+        pattern: "rando-electrique"
+    fields:
+      - name: stage
+        label: "Type de stage"
+        widget: select
+        options:
+          - { label: "Wheeling", value: "wheeling" }
+          - { label: "Pilotage sur piste", value: "conduite" }
+          - { label: "Stage Privé", value: "prive" }
+          - { label: "Randonnée électrique", value: "rando-electrique" }
+      - name: date
+        label: "Date"
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: false
+      - name: location
+        label: "Lieu"
+        widget: string
+        hint: "Ex. Circuit du Vigeant (86)"
+      - name: spotsLeft
+        label: "Places restantes"
+        widget: number
+        value_type: int
+        min: 0
+        default: 8
+        hint: "Mets 0 pour afficher « Complet »."
+      - name: capacity
+        label: "Capacité totale"
+        widget: number
+        value_type: int
+        min: 1
+        default: 8

@@ -31,6 +31,14 @@ const nextConfig: NextConfig = {
     ],
     formats: ["image/avif", "image/webp"],
   },
+  // Rewrites — `/admin` doit servir `public/admin/index.html` (Decap CMS).
+  // Sans ça, Next renvoie un 404 parce qu'aucune route App Router ne matche.
+  async rewrites() {
+    return [
+      { source: "/admin", destination: "/admin/index.html" },
+      { source: "/admin/", destination: "/admin/index.html" },
+    ];
+  },
   async headers() {
     return [
       {

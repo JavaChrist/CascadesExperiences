@@ -15,10 +15,10 @@ import { LinkButton } from "@/components/ui/button";
 import {
   STAGES,
   getStage,
-  upcomingSessions,
   formatSessionDate,
   type StageType,
 } from "@/content/stages";
+import { upcomingSessions } from "@/content/sessions-data";
 import { siteConfig } from "@/lib/site";
 import { cn } from "@/lib/cn";
 
@@ -55,7 +55,8 @@ export default async function StageDetailPage({
   const stage = STAGES.find((s) => s.slug === slug);
   if (!stage) notFound();
 
-  const sessionsForStage = upcomingSessions().filter(
+  const allUpcoming = await upcomingSessions();
+  const sessionsForStage = allUpcoming.filter(
     (s) => s.stage === (stage.slug as StageType)
   );
   const Icon = stage.icon;

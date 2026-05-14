@@ -4,12 +4,8 @@ import { ArrowRight, CalendarDays, MapPin, Users } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { LinkButton } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site";
-import {
-  STAGES,
-  getStage,
-  upcomingSessions,
-  formatSessionDate,
-} from "@/content/stages";
+import { STAGES, getStage, formatSessionDate } from "@/content/stages";
+import { upcomingSessions } from "@/content/sessions-data";
 
 // On limite les prochaines dates affichées sur la home.
 const HOME_SESSIONS_LIMIT = 4;
@@ -31,8 +27,8 @@ const HERO_VIDEO =
 const HERO_POSTER =
   "/media/photos/fdbdb0_b1ce414227db4d129f3de209cb5a99dc~mv2.webp";
 
-export default function HomePage() {
-  const nextSessions = upcomingSessions().slice(0, HOME_SESSIONS_LIMIT);
+export default async function HomePage() {
+  const nextSessions = (await upcomingSessions()).slice(0, HOME_SESSIONS_LIMIT);
 
   return (
     <>

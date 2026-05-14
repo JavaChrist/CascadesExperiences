@@ -34,6 +34,30 @@ npm run dev
 
 Ouvre <http://localhost:3000> dans Chrome. Le hot-reload s'active automatiquement à chaque sauvegarde.
 
+### 3 bis. Lancer le dev server **avec le CMS**
+
+Pour éditer les dates de stages via une interface web (Decap CMS) :
+
+```bash
+cd web
+npm run dev:cms
+```
+
+Cette commande lance en parallèle :
+
+- **Next.js** sur <http://localhost:3000>
+- **Decap CMS proxy** (`decap-server`) sur le port 8081 — il écrit les fichiers du repo localement quand tu sauvegardes dans le CMS
+
+Ouvre <http://localhost:3000/admin/> pour accéder à l'admin. En dev tu n'as pas besoin de t'authentifier (le proxy local accepte sans OAuth).
+
+Quand tu modifies une session dans l'admin :
+
+1. Le fichier `web/content/sessions/<slug>.json` est créé/modifié sur disque.
+2. Next.js détecte le changement et re-rend les pages qui l'utilisent (HMR).
+3. Le changement apparaît dans Git → tu peux le commit/push à la main.
+
+**À retenir :** en dev, les changements faits dans l'admin ne sont PAS push automatiquement sur GitHub. C'est toi qui les commit. Le push auto sera disponible une fois l'OAuth GitHub configuré (Phase 2).
+
 ## 4. Lancer un build de production
 
 ```bash
